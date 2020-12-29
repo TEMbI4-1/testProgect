@@ -27,6 +27,7 @@ public class Test {
             session.beginTransaction();
             session.save(person);
             session.getTransaction().commit();
+            System.out.println("Done");
 
         } catch (HibernateException e) {
             e.printStackTrace();
