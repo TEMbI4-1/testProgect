@@ -1,40 +1,36 @@
 package hibernatetest;
 
-
-import hibernatetest.entity.Person;
-import org.hibernate.HibernateException;
+import hibernatetest.entity.Detail;
+import hibernatetest.entity.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.time.LocalDate;
-
-public class Test {
+public class Test7 {
     public static void main(String[] args) {
 
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Person.class)
+                .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(Detail.class)
                 .buildSessionFactory();
 
-
-
-        Person person = new Person("Viktor","Pelevin",
-                "Splitska ulica 1","1000","Slovenia", 'F', LocalDate.of(1968,01,25));
         Session session = factory.getCurrentSession();
+        Employee employee = new Employee("Artem","Andronnikov","IT",1500);
+        Detail detail = new Detail("Moscow","213997","andf@wma.re");
+        employee.setEmployeeDetail(detail);
+
         try {
-
             session.beginTransaction();
-            session.save(person);
-            session.getTransaction().commit();
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
+            session.save(employee);
+
+
+
+            session.getTransaction().commit();
         }finally {
             session.close();
             factory.close();
         }
-
-
     }
 }
